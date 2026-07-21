@@ -1,0 +1,5 @@
+"scenario","x_distribution","y_distribution"
+"CSR","Uniform(0,1)","Uniform(0,1)"
+"Beta centre-high","Beta(4,4)","Beta(4,4)"
+"Beta right-high","Beta(5,1.5)","Uniform(0,1)"
+"Beta left-high","Beta(1.5,5)","Uniform(0,1)"

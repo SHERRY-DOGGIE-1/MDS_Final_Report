@@ -1,0 +1,5 @@
+"scenario","x_stop","x_end","marker_count","target_count_in_band"
+"CSR",333,0.0297662308439612,156,10522
+"Beta centre-high",333,0.293143237437561,167,2868
+"Beta right-high",333,0.423904769138724,173,10494
+"Beta left-high",333,0.0260093100584408,184,10401
