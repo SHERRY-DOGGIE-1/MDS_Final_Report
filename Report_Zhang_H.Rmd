@@ -1,0 +1,1341 @@
+---
+title: "The Reliability of the Linear-Method Precision Formula Under Spatial Heterogeneity"
+subtitle: "A Monte Carlo Study of Microfossil Concentration Estimation"
+author: "Hanzhi Zhang"
+date: "2026-07-17"
+output:
+  pdf_document:
+      number_sections: true
+bibliography: references.bib
+geometry: "top=20mm, left=20mm, right=20mm, bottom=20mm"
+fontsize: 12pt
+header-includes:
+  - \usepackage{tikz}
+  - \usepackage{float}
+  - \usetikzlibrary{positioning, arrows.meta}
+  - \usepackage{booktabs}
+  - \usepackage{longtable}
+  - \newtheorem{theorem}{Theorem}
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Project supervisor: Anthony Mays
+
+# Declaration
+
+In submitting this work I am indicating that I have read the University's Academic Integrity Policy. I declare that all material in this assessment is my own work except where there is clear acknowledgement and reference to the work of others. I give permission for this work to be reproduced and submitted to other academic staff for educational purposes.
+
+# Abstract
+
+Absolute microfossil concentration—the number of specimens per unit mass or volume of sediment—helps distinguish a genuine decline in abundance from an apparent decline in percentage caused by increases in other groups. It is commonly estimated by adding a known dose of marker grains and counting targets and markers together. The uncertainty of this estimate is usually calculated using a precision formula that assumes specimens are randomly and uniformly distributed. This report tested whether formula-based precision still agreed with the variation observed across repeated simulations when specimen locations were non-uniform. We compared a random uniform reference pattern with three controlled non-uniform patterns across four target-to-marker ratios and two stopping counts, giving 32 settings. Each setting included 400 repetitions, with targets and markers sharing the same spatial distribution.
+
+Both the formula-based and simulation-based estimates of uncertainty increased as the target-to-marker ratio increased. Their mean relative difference was smallest at a ratio of 2 (2.0%) and largest at a ratio of 10 (7.9%). A stopping count of 800 produced a smaller difference than a stopping count of 333 in 12 of the 16 matched comparisons. The centre-high pattern differed most strongly from the random uniform pattern, but it produced the largest precision difference in only one of the eight combinations of ratio and stopping count. The difference also tended to decrease when more markers were counted. However, marker count changed together with ratio and stopping count, so their separate effects could not be determined. The concentration estimate based on the mean marker count had an absolute relative bias ranging from 0.02% to 1.52%, with a mean of 0.45%. Within the settings examined, stronger non-uniformity was therefore not consistently linked to poorer agreement between the two precision estimates. This is an initial result for cases in which targets and markers share the same spatial distribution, rather than a general validation of the precision formula.
+
+
+
+# Introduction
+
+Microfossils preserved in sediment provide evidence of past ecological and
+environmental change. Interpreting this evidence requires knowing how abundant
+a microfossil group actually was, not only how common it was relative to other
+groups. A group's percentage can fall because another group becomes more
+abundant, even when its own abundance does not change. Absolute concentration,
+defined as the number of target specimens per unit mass or volume of sediment,
+helps distinguish genuine changes in a group from changes caused by the
+composition of other microfossil groups [@mays2025field, pp. 2--3].
+
+Because counting every specimen is impractical, concentration is commonly
+estimated by adding a known dose of exotic marker grains and counting targets
+and markers together until a preset number of targets is reached. The expected
+uncertainty of this estimate is summarised by a precision formula. Its counting
+terms assume that targets and markers are independently and uniformly
+distributed, but real microscope preparations need not satisfy this assumption.
+Mays et al. note that the effects of inhomogeneity had not been comprehensively
+assessed because suitable quantitative data were not yet available
+[@mays2025field, p. 28].
+
+This report asks whether formula-based precision continues to agree with the
+variation observed across repeated simulations when specimen locations are
+non-uniform. Formula-based precision is compared with a simulation benchmark
+under a random uniform reference pattern and three non-uniform patterns, across
+four target-to-marker ratios and two counting efforts. Within each setting,
+targets and markers follow the same spatial distribution. The contribution is
+therefore a controlled quantitative comparison for cases in which both groups
+become non-uniform in the same way; cases in which they follow different
+spatial distributions remain outside the present scope.
+
+
+# Background
+
+
+## Exotic-marker estimation and the linear method
+
+Absolute concentration is the number of target specimens per unit mass or
+volume of sediment. It provides information that relative abundance alone
+cannot provide. For example, the percentage of one group may change because
+that group changes, because other groups change, or because both change.
+Absolute concentration helps distinguish between these possibilities
+[@mays2025field, pp. 2--3]. It is therefore useful when biological abundance
+must be compared between samples or time periods.
+
+The exotic-marker technique estimates absolute concentration by adding a known
+quantity of marker specimens to a sample. Benninghoff
+[-@benninghoff1962absolute] introduced this approach to microfossil analysis
+using a measured suspension of exotic pollen. Stockmarr
+[-@stockmarr1971tablets, pp. 616--619] later described soluble tablets containing
+*Lycopodium* spores as a convenient way to add marker specimens. As summarised
+by Mays et al. [-@mays2025field, pp. 2--3], targets and markers are counted
+together, and their count ratio is used to estimate the concentration of
+targets in the original sample.
+
+The method assumes that targets and markers are sufficiently well mixed for the
+counted area to represent their ratio in the preparation. Ideally, the two
+specimen types should have similar physical and chemical behaviour, reducing
+the chance that one type is overrepresented in the counted material
+[@mays2025field, pp. 2--3].
+
+Maher [-@maher1981statistics, p. 156] describes the conventional procedure in
+which an analyst counts until a preset number of target specimens has been
+reached while also recording every marker encountered. Mays et al.
+[-@mays2025field, p. 4] refer to this procedure as the linear method. In this
+report, the preset target count is denoted by $x_{\mathrm{stop}}$ and is called
+the stopping count. Counting was carried out within a horizontal transect band;
+the transect geometry and stopping procedure are specified in the Methods
+section.
+
+Mays et al. [-@mays2025field, Eq. 1, p. 3] present the general concentration
+equation as following Benninghoff, with its terms updated from Maher. Using
+their notation, $N_1$ is the number of marker doses added to the sample and
+$\bar{Y}_1$ is the mean number of markers per dose. The nominal total number of
+markers added is therefore
+
+\begin{align}
+\label{eqn:Mbar}
+\bar{M} = N_1\bar{Y}_1.
+\end{align}
+
+
+Let $x$ be the number of targets counted, $n$ the number of markers counted,
+and $V$ the original sample volume. Scaling the counted target-to-marker ratio
+by the nominal marker total gives the concentration estimate
+
+\begin{align}
+\label{eqn:conc}
+\hat{c}
+=
+\frac{x\bar{M}}{nV},
+\end{align}
+
+where $\hat{c}$ is the estimated number of targets per unit volume.
+
+
+In this report, $\bar{M}$ is the nominal total for the five-tablet marker dose,
+rather than the exact number of markers in an individual preparation.
+Stockmarr's measurements of five-tablet groups showed that the total spore
+content was not identical between replicate groups; the estimated standard
+error was approximately 3.0% of the mean
+[-@stockmarr1971tablets, pp. 618--619]. The uncertainty in marker dose is
+therefore included in the formula-based precision calculation introduced in
+the next section.
+
+Laboratory preparation can introduce additional uncertainty, but it is not
+simulated here. This report begins with generated target and marker locations
+and focuses on uncertainty arising during counting. Evidence concerning marker
+loss during laboratory preparation is summarised in Appendix Section
+\ref{app:processing}.
+
+
+
+
+
+
+### Averaging repeated concentration estimates
+
+\label{sec:jensen}
+
+In this project, the target count $x$ is fixed by the stopping rule, but the
+number of counted markers $n$ changes between repetitions. Because $n$ appears
+in the denominator of Equation \eqref{eqn:conc}, repetitions with small marker
+counts can have a relatively large effect on the average concentration
+estimate.
+
+For positive marker counts, $1/n$ is a convex function, so Jensen's inequality
+gives
+\[
+\mathrm{E}(1/n) \geq 1/\mathrm{E}(n),
+\]
+where $\mathrm{E}$ denotes the expected value over the random marker count.
+Therefore, directly averaging the individual concentration estimates can give
+a higher value than calculating the concentration from the mean marker count.
+For this reason, the project also uses an estimate based on the mean marker
+count. Its calculation is described in the Methods section.
+
+
+
+
+## Formula-based precision and the target-to-marker ratio
+
+\label{sec:precision-background}
+
+Stockmarr [-@stockmarr1971tablets, p. 620] introduced an approximate
+total-error calculation for exotic-marker concentration estimates. Mays et al.
+[-@mays2025field, Eq. 2, pp. 4--6] present this calculation in the notation
+used for the linear method, using terms defined by Maher
+[-@maher1981statistics]. The formula is
+
+\begin{align}
+\label{eqn:precision_original}
+\sigma_L
+=
+100
+\sqrt{
+\left(\frac{s_{1P}}{\sqrt{N_1}}\right)^2
++
+\left(\frac{\sqrt{x}}{x}\right)^2
++
+\left(\frac{\sqrt{n}}{n}\right)^2
+},
+\end{align}
+
+Here, $\sigma_L$ is the proportional standard error of the concentration estimate, reported as a percentage; equivalently, it is the coefficient of variation multiplied by 100. The quantity $s_{1P}$ is the relative standard
+deviation of the marker count in one dose, $N_1$ is the number of doses added,
+and $x$ and $n$ are the counted target and marker numbers. The three terms
+represent uncertainty from the marker dose, target count and marker count.
+
+The target- and marker-counting terms follow a Poisson model, under which their
+squared relative contributions reduce to $1/x$ and $1/n$
+[@mays2025field, p. 6]. Although $x$ is fixed by the stopping rule, Mays et al.
+explain that its contribution remains because the area examined before reaching
+$x$ varies between repeated counts.
+
+For this project, the calibrated five-tablet group reported by Stockmarr
+[-@stockmarr1971tablets, pp. 618--619] was treated as one complete marker dose.
+Therefore, $N_1=1$, $\sqrt{N_1}=1$, and the first term in Equation
+\eqref{eqn:precision_original} reduces to $s_{1P,5}^{2}$. This is why $N_1$
+does not appear in the project-specific formula in the Methods section. The
+numerical value of $s_{1P,5}$ is specified there.
+
+
+### Target-to-marker ratio
+
+\label{sec:ratio-background}
+
+Maher [-@maher1981statistics, p. 156] uses $u$ for the underlying ratio of
+targets to markers. In this report, the fixed simulation setting is
+
+\[
+\bar{u}=\frac{N_T}{\bar{M}},
+\]
+
+where $N_T$ is the target total and $\bar{M}$ is the nominal marker total. The
+bar distinguishes this setting from the realised ratio, which varies because
+the realised marker total changes between repetitions.
+
+Regal and Cushing [-@regal1979confidence, Eq. 6.2, p. 564] showed that, under a
+large-sample Poisson model and fixed expected counting effort, concentration
+variance is minimised when target and marker concentrations are equal. This
+corresponds to $u=1$. A short mathematical explanation is provided in Appendix
+Section \ref{app:equal-counts}.
+
+Maximum theoretical precision is not identical to maximum practical
+efficiency. Maher [-@maher1981statistics, pp. 156--157] noted that at $u=1$,
+half of the counted specimens are markers rather than biological targets. Mays
+et al. [-@mays2025field, p. 4] recover the equal-abundance precision result and
+identify a ratio close to $2:1$ as an effective balance between precision and
+counting effort when combined counts are approximately $500$ or greater.
+Price et al. [-@price2016determining, p. 78] recommend ratios below $5:1$, and
+ideally between $0.5:1$ and $2:1$, in their dinoflagellate-cyst experiments.
+
+Accordingly, $\bar{u}=1$ represents the theoretical equal-abundance case and
+$\bar{u}=2$ represents the practical value discussed by Maher and Mays et al.
+The values $\bar{u}=5$ and $10$ examine conditions with progressively fewer
+markers. These settings are not intended to determine a universal optimal
+ratio.
+
+
+
+
+
+
+
+
+## Spatial randomness, heterogeneity and the CSR diagnostic
+
+Complete spatial randomness (CSR) provides the uniform comparison case for this
+project. Under CSR, points are placed independently and every location in the
+study region has the same chance of containing a point
+[@diggle2013spatial]. When the total number of points is fixed, this
+can be produced by drawing the horizontal and vertical coordinates independently
+from a Uniform$(0,1)$ distribution. The resulting pattern is random, but has no
+systematic concentration towards any part of the unit square.
+
+Real preparations may not follow this uniform pattern. Specimens can be more
+concentrated in the centre or towards one side of a slide. The Beta distribution
+provides a simple way to represent these patterns on the interval $[0,1]$. A
+symmetric Beta distribution with equal parameters greater than one places more
+points near the centre. Unequal parameters can instead place more points towards
+the right or left. Applying these distributions to both coordinates produces a
+centre-high pattern, while applying them only to the horizontal coordinate
+produces right-high and left-high patterns.
+
+These patterns were selected to represent clear departures from CSR rather than
+to reproduce a particular microscope slide. Within each spatial scenario,
+targets and markers followed the same coordinate distributions. This represents
+a preparation in which both groups share the same broad spatial pattern, while
+their observed counts can still differ by chance. The exact Beta parameters used
+in the final simulation are given in the Methods section.
+
+\begin{figure}[ht!]
+\centering
+\includegraphics[width=\textwidth]{partB_beta_toy_figures/fig4_linear_transect_examples.png}
+\caption{Toy illustration of target and marker locations under CSR and three
+non-uniform Beta patterns, together with the horizontal transect band and the
+final counting rectangle. A stopping count of $x_{\mathrm{stop}}=100$, reduced
+point totals and simplified Beta settings are used here so that the counting
+process can be seen clearly. The exact parameter values and stopping counts used
+in the final simulation are given in the Methods section.}
+\label{f:transect}
+\end{figure}
+
+
+
+### Checking departure from CSR
+
+Departure from CSR was assessed using inter-event distances
+[@diggle2013spatial, Eq. 2.2, pp. 18--19]. The empirical inter-event distance
+distribution was compared with the corresponding theoretical CSR distribution
+for the unit square. A larger maximum difference between the two curves
+indicates a stronger departure from CSR. The mathematical definition is given
+in Appendix Section \ref{app:csr-reference}, and its implementation is described
+in the Methods section.
+
+
+
+## Previous research and the present question
+
+The studies reviewed above establish the exotic-marker concentration
+estimator, the linear counting method and its formula-based precision
+calculation. Mays et al. [-@mays2025field, p. 6] explain that the target- and
+marker-counting terms are based on independent Poisson distributions. They also
+note that specimens on microscope slides need not follow random Poisson
+patterns and that the effects of inhomogeneity had not been comprehensively
+assessed because suitable quantitative data were not yet available
+[@mays2025field, p. 28].
+
+This provides the motivation for the present project. The project asks whether
+the formula-based precision estimate continues to agree with the variation
+observed across repeated simulations when specimen locations depart from CSR.
+It compares formula-based and simulation-based precision under CSR and three
+non-uniform Beta patterns, across four target-to-marker ratios and two stopping
+counts. Within each scenario, targets and markers follow the same coordinate
+distributions.
+
+
+
+# Methods
+
+
+
+## Overview of the simulation
+
+This was a Monte Carlo study of simulated microscope-slide patterns rather than
+observed data. Because all target and marker locations were generated directly,
+no missing-data treatment or preprocessing was required.
+
+The project compared formula-based precision with a simulation benchmark across
+four spatial patterns, four target-to-marker ratios and two stopping counts.
+Figure \ref{f:pipeline} summarises the procedure. Exact settings and calculations
+are given in the following subsections.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[
+  >=Latex,
+  node distance=9mm and 8mm,
+  box/.style={
+    rectangle,
+    rounded corners,
+    draw,
+    align=center,
+    inner sep=5pt,
+    font=\small,
+    text width=34mm,
+    minimum height=15mm
+  }
+]
+
+\node[box] (design)
+  {Set the simulation grid\\[2pt]
+   \scriptsize four patterns, four ratios and two stopping counts};
+
+\node[box, right=of design] (generate)
+  {Simulate one slide\\[2pt]
+   \scriptsize draw the marker total and generate point locations};
+
+\node[box, right=of generate] (count)
+  {Apply linear counting\\[2pt]
+   \scriptsize count until the target stopping count is reached};
+
+\node[box, below=of count, text width=50mm] (calculate)
+  {Calculate each stopping-count result\\[2pt]
+   \scriptsize estimate concentration and formula precision};
+
+\node[box, below=of calculate, text width=50mm] (compare)
+  {Compare formula with simulation\\[2pt]
+   \scriptsize over all 400 repetitions};
+
+\draw[->] (design) -- (generate);
+\draw[->] (generate) -- (count);
+\draw[->] (count) -- (calculate);
+\draw[->] (calculate) -- (compare);
+
+\end{tikzpicture}
+
+\caption{Workflow of the formal Monte Carlo simulation. For each combination of
+spatial pattern, target-to-marker ratio and stopping count, the formula-based
+precision estimate was compared with the simulation benchmark calculated from
+400 repetitions.}
+\label{f:pipeline}
+\end{figure}
+
+The complete workflow is implemented in `01_run_final_simulation.R`. The formal
+settings are specified on lines 31 to 140, and coordinates are generated by
+`generate_xy()` on lines 149 to 184. Each combination of spatial pattern and
+target-to-marker ratio is processed by `run_one_setting()` on lines 202 to 381.
+The raw results are combined and written on lines 515 to 554, and the summaries
+are calculated and written on lines 561 to 745.
+
+
+
+## Simulation design and spatial settings
+
+\label{sec:simulation-design}
+
+The simulation varied three settings: spatial pattern, target-to-marker ratio
+and target stopping count. The target-to-marker ratio $\bar{u}$ is defined in
+Background Subsection \ref{sec:ratio-background}. Four values,
+$\bar{u}\in\{1,2,5,10\}$, were used for the reasons summarised there.
+
+With the nominal marker total fixed at $\bar{M}=105000$, these ratios gave
+target totals of $105000$, $210000$, $525000$ and $1050000$, respectively.
+The realised marker total varied between repetitions, while $\bar{u}$ remained
+a fixed simulation setting.
+
+Each target and marker was represented by a horizontal coordinate $X$ and a
+vertical coordinate $Y$ in the unit square. The coordinate distributions used
+for each spatial pattern are shown in Table \ref{table:scenarios}.
+
+\begin{table}[ht!]
+\centering
+\begin{tabular}{ |l|c|c| }
+\hline
+Spatial pattern & $X$ distribution & $Y$ distribution \\ \hline
+CSR & Uniform$(0,1)$ & Uniform$(0,1)$ \\ \hline
+Centre-high & Beta$(4,4)$ & Beta$(4,4)$ \\ \hline
+Right-high & Beta$(5,1.5)$ & Uniform$(0,1)$ \\ \hline
+Left-high & Beta$(1.5,5)$ & Uniform$(0,1)$ \\
+\hline
+\end{tabular}
+\caption{Coordinate distributions used for the four spatial patterns. Targets
+and markers were generated independently but followed the same coordinate
+distributions within each pattern.}
+\label{table:scenarios}
+\end{table}
+
+The Beta parameters were chosen to create clear departures from CSR while
+leaving enough target points in the transect band for both stopping counts to be
+examined. They were controlled simulation settings rather than estimates from
+observed microscope slides. The right-high pattern placed more points near the
+right edge, while the left-high pattern placed more points near the left edge.
+
+Using the same spatial pattern for targets and markers kept their expected ratio
+constant across the unit square. This allowed non-uniform spatial patterns to be
+studied while targets and markers remained distributed in the same way.
+Situations in which targets and markers follow different spatial distributions
+were outside the scope of this project.
+
+The complete parameter settings are listed in Table \ref{table:parameters}.
+
+\begin{table}[ht!]
+\centering
+\begin{tabular}{ |l|l| }
+\hline
+Setting & Value \\ \hline
+Nominal marker total $\bar{M}$ & $105000$ \\ \hline
+Realised marker total & Normal mean $105000$, SD $3112$; rounded, minimum $1$ \\ \hline
+Sample volume $V$ & $1$ \\ \hline
+Spatial domain & Unit square $[0,1]^2$ \\ \hline
+Transect band & $y\in[0.83,0.88]$ \\ \hline
+Target-to-marker ratio $\bar{u}$ & $1,\ 2,\ 5,\ 10$ \\ \hline
+Target total $N_T$ & $105000,\ 210000,\ 525000,\ 1050000$ \\ \hline
+Stopping count $x_{\mathrm{stop}}$ & $333,\ 800$ \\ \hline
+Planned repetitions per setting $M$ & $400$ \\ \hline
+Main seed & $123$ with a fixed offset for each setting \\
+\hline
+\end{tabular}
+\caption{Parameter values used in the formal simulation. A setting was one
+combination of spatial pattern, target-to-marker ratio and stopping count.}
+\label{table:parameters}
+\end{table}
+
+Stockmarr reported a mean of $105022$ marker spores and a standard deviation of
+$3112$ for a five-tablet dose [-@stockmarr1971tablets, pp. 618--619]. The mean was
+rounded to the nominal value $\bar{M}=105000$, which Stockmarr also used in the
+concentration calculation. At the beginning of each repetition, the realised
+marker total was drawn from a Normal distribution with mean $105000$ and
+standard deviation $3112$. It was then rounded to an integer and given a lower
+bound of one.
+
+The full Stockmarr marker total was used rather than a smaller total chosen only
+to reduce computation. This required more simulated points, but kept the
+marker-dose variation in the simulation consistent with the value used in the
+precision formula.
+
+The point-generation model did not reproduce the independent Poisson counting
+assumption exactly. The target total was fixed, and the realised marker total
+was fixed within each repetition after it had been drawn. Consequently, for
+any fixed region, the spatial counts were binomial conditional on their totals
+rather than unconditionally Poisson. The final counting rectangle was also
+random because its endpoint was determined by a target order statistic. The
+Poisson terms in Equation \eqref{eqn:sigmaL} were nevertheless retained because
+they are part of the precision formula being evaluated
+[@mays2025field, p. 6]. The difference between the conditional binomial and
+Poisson models was expected to be small here: the largest designed target
+sampling fraction was $800/105000=0.76\%$, and the expected marker sampling
+fractions were similarly small. The results should therefore be interpreted as
+a test of the formula under a conditional finite-population point process,
+rather than under its exact Poisson data-generating assumptions.
+
+The stopping count $x_{\mathrm{stop}}=333$ gives an expected marker count of
+approximately $166$ when $\bar{u}=2$, giving an expected combined count close to
+$500$. The larger stopping count, $x_{\mathrm{stop}}=800$, was included to
+examine the same settings with greater counting effort.
+
+For each combination of spatial pattern and target-to-marker ratio, $400$
+independent point patterns were generated. Each pattern was evaluated at both
+stopping counts. The design therefore contained
+$4\times4\times400=6400$ simulated point patterns and $12800$ planned
+stopping-count records across $32$ settings. 
+
+The main seed was $123$. For spatial-pattern index $i=1,\ldots,4$ and ratio
+index $j=1,\ldots,4$, the seed for each setting was
+
+\begin{align}
+\label{eqn:settingseed}
+123+100000i+1000j.
+\end{align}
+
+A stopping-count result was retained only if the transect band contained at
+least $x_{\mathrm{stop}}$ targets and the final counting rectangle contained at
+least one marker. The number of valid results retained from the planned $M=400$
+repetitions is denoted by $M_{\mathrm{eff}}$. These conditions were fixed before
+any results were summarised.
+
+The parameter values and coordinate distributions are implemented in
+`01_run_final_simulation.R` on lines 31 to 184. The realised marker total and
+point locations are generated on lines 256 to 271, the validity conditions are
+applied on lines 315 to 337, and the seed for each setting is calculated on
+lines 388 to 416. The script writes the settings to
+`outputs/full_R400/simulation_parameters.csv` and
+`outputs/full_R400/scenario_parameters.csv`.
+
+
+
+
+## CSR diagnostic using inter-event distances
+
+\label{sec:csr-diagnostic}
+
+This diagnostic was run separately from the main Monte Carlo simulation to check
+whether the four generated spatial patterns behaved as intended. For each
+spatial scenario $i=1,\ldots,4$, one representative target pattern was generated
+at $\bar{u}=2$, giving $N_T=210000$. The seed used to generate each pattern was
+$987+1000i$. A random subset of $1000$ target points was then selected using the
+seed $987+30i$. Only target locations were used in this diagnostic.
+
+All inter-event distances among the selected points were calculated. Their
+empirical cumulative distribution $\hat{H}(t)$ was evaluated at $500$ equally
+spaced values between $0$ and $1$ and compared with the theoretical CSR curve
+$H_{\mathrm{CSR}}(t)$ in Equation \eqref{eqn:Hcsr}. The CSR gap was defined as
+
+\begin{align}
+\label{eqn:csrgap}
+\text{CSR gap}
+=
+\max_{0\leq t\leq1}
+\left|
+\hat{H}(t)-H_{\mathrm{CSR}}(t)
+\right|.
+\end{align}
+
+The CSR gap summarises the largest difference between the two curves. It is a
+descriptive measure rather than a $p$-value, and it is separate from the
+precision gap defined later.
+
+The representative patterns are generated in
+`03_make_spatial_diagnostics.R` on lines 135 to 157. The theoretical CSR curve
+is implemented on lines 484 to 497, and the diagnostic is calculated by
+`draw_csr_diagnostic()` on lines 513 to 641. The script writes
+`outputs/spatial_diagnostics/csr_gap_summary.csv` and saves the diagnostic figure
+as `fig_csr_diagnostic_inter_event.png` and
+`fig_csr_diagnostic_inter_event.pdf` in the same folder.
+
+
+
+
+## Linear-transect counting algorithm
+
+Each point pattern generated using the design in Subsection
+\ref{sec:simulation-design} was processed using the following linear counting
+algorithm. Figure \ref{f:transect} shows the transect band and final counting
+rectangle under the four spatial patterns using toy examples with
+$x_{\mathrm{stop}}=100$ and simplified parameters.
+
+1. Retain the target and marker points within the horizontal transect band
+   $y\in[0.83,0.88]$.
+2. Order the horizontal coordinates of the target points in the band.
+3. For each stopping count, define $x_{\mathrm{end}}$ as the horizontal
+   coordinate of the $x_{\mathrm{stop}}$-th target.
+4. Define the final counting rectangle as
+   $[0,x_{\mathrm{end}}]\times[0.83,0.88]$.
+5. Record the target count as $x=x_{\mathrm{stop}}$ and record the number of
+   markers in the rectangle as $n$.
+
+The procedure was applied separately at $x_{\mathrm{stop}}=333$ and
+$x_{\mathrm{stop}}=800$ using the same generated point pattern. The validity
+rules defined in Subsection \ref{sec:simulation-design} were then applied. A
+result was discarded if the band contained fewer than $x_{\mathrm{stop}}$
+targets or if the final rectangle contained no markers.
+
+The algorithm is implemented in `run_one_setting()` in
+`01_run_final_simulation.R`. Lines 273 to 305 select the points in the transect
+band and order the target coordinates. Lines 307 to 337 apply the stopping
+counts, record $x_{\mathrm{end}}$, count the markers and apply the validity
+rules.
+
+
+
+
+## Concentration and precision calculations
+
+For each setting, the calculations used the valid repetitions
+$m=1,\ldots,M_{\mathrm{eff}}$, where $M_{\mathrm{eff}}$ is defined in Subsection
+\ref{sec:simulation-design}.
+
+### Concentration estimates
+
+The concentration estimate for repetition $m$ was
+
+\begin{align}
+\label{eqn:chat}
+\hat{c}_m
+=
+\frac{x_m\,\bar{M}}{n_m\,V},
+\end{align}
+
+where $x_m=x_{\mathrm{stop}}$ is the counted target number and $n_m$ is the
+counted marker number. The estimator used the nominal marker total
+$\bar{M}=105000$ and sample volume $V=1$. The repetition-specific realised
+marker total was used only to generate the marker locations.
+
+The known true concentration was
+
+\begin{align}
+\label{eqn:ctrue}
+c_{\mathrm{true}}
+=
+\frac{N_T}{V}
+=
+\frac{\bar{u}\,\bar{M}}{V}.
+\end{align}
+
+Since $V=1$, the true concentration was equal to the fixed target total $N_T$.
+For each setting, the mean counted marker number was
+
+\begin{align}
+\label{eqn:nbar}
+\bar{n}
+=
+\frac{1}{M_{\mathrm{eff}}}
+\sum_{m=1}^{M_{\mathrm{eff}}}n_m.
+\end{align}
+
+Jensen's inequality in Subsection \ref{sec:jensen} shows that averaging the
+individual estimates $\hat{c}_m$ can differ from calculating concentration from
+the mean marker count. Therefore, a second estimate based on $\bar{n}$, denoted
+by $\hat{c}_{\mathrm{Jensen}}$, was calculated as
+
+\begin{align}
+\label{eqn:jensen}
+\hat{c}_{\mathrm{Jensen}}
+=
+\frac{x_{\mathrm{stop}}\,\bar{M}}{\bar{n}\,V}.
+\end{align}
+
+Its agreement with the truth was summarised by the absolute relative bias
+
+\begin{align}
+\label{eqn:bias}
+b
+=
+\frac{
+\left|
+\hat{c}_{\mathrm{Jensen}}-c_{\mathrm{true}}
+\right|
+}{
+c_{\mathrm{true}}
+}.
+\end{align}
+
+### Formula-based precision estimate
+
+Using the five-tablet dose convention described in Background Section
+\ref{sec:precision-background}, Equation
+\eqref{eqn:precision_original} was implemented for repetition $m$ as
+
+\begin{align}
+\label{eqn:sigmaL}
+\sigma_{L,m}
+=
+100
+\sqrt{
+s_{1P,5}^{2}
++
+\frac{1}{x_m}
++
+\frac{1}{n_m}
+},
+\end{align}
+
+where the relative standard deviation of the five-tablet marker dose was
+
+\begin{align}
+\label{eqn:s1p}
+s_{1P,5}
+=
+\frac{3112}{105000}.
+\end{align}
+
+The mean formula-based precision estimate for each setting was
+
+\begin{align}
+\label{eqn:sigmaLbar}
+\bar{\sigma}_L
+=
+\frac{1}{M_{\mathrm{eff}}}
+\sum_{m=1}^{M_{\mathrm{eff}}}\sigma_{L,m}.
+\end{align}
+
+### Simulation-based precision benchmark
+
+The simulation-based precision benchmark was calculated from the squared relative deviations of the individual concentration estimates from the known true concentration:
+
+\begin{align}
+\label{eqn:sigmaexact}
+\sigma_{\mathrm{exact}}
+=
+\frac{100}{c_{\mathrm{true}}}
+\sqrt{
+\frac{
+\displaystyle
+\sum_{m=1}^{M_{\mathrm{eff}}}
+\left(\hat{c}_m-c_{\mathrm{true}}\right)^2
+}{
+M_{\mathrm{eff}}-1
+}
+}.
+\end{align}
+
+The denominator
+$M_{\mathrm{eff}}-1$ follows the calculation used by Mays et al.
+[-@mays2025field, Eq. S18] and keeps the benchmark comparable with their
+simulation results. When $M_{\mathrm{eff}}=400$, using this denominator rather
+than $M_{\mathrm{eff}}$ increases $\sigma_{\mathrm{exact}}$ by about $0.125\%$.
+No additional corrections were applied.
+
+### Precision-gap measures
+
+The formula-based estimate and simulation benchmark were compared using signed,
+absolute and relative precision gaps:
+
+\begin{align}
+\label{eqn:gapsigned}
+\Delta
+&=
+\bar{\sigma}_L-\sigma_{\mathrm{exact}},\\
+\label{eqn:gapabs}
+|\Delta|
+&=
+\left|
+\bar{\sigma}_L-\sigma_{\mathrm{exact}}
+\right|,\\
+\label{eqn:gaprel}
+\text{Relative precision gap}
+&=
+\frac{|\Delta|}{\sigma_{\mathrm{exact}}}.
+\end{align}
+
+A negative $\Delta$ means that the formula-based estimate was below the
+simulation benchmark, while a positive value means it was above. The relative
+gap allows settings with different values of $\sigma_{\mathrm{exact}}$ to be
+compared on the same scale.
+
+The true concentration is calculated in `01_run_final_simulation.R` on lines
+211 to 215. The individual concentration and formula-based precision estimates
+are calculated on lines 339 to 353. The mean marker count, concentration bias,
+simulation benchmark and precision gaps are calculated by `summarise_group()` on
+lines 630 to 665.
+
+
+
+
+## Relationship between precision gap and mean counted marker number
+
+To examine whether the relative precision gap was related to the number of
+markers actually counted, it was plotted against the mean counted marker number
+$\bar{n}$ for all $32$ settings. The horizontal axis used a logarithmic scale,
+the four spatial patterns were shown by colour, and the two stopping counts were
+shown by plotting symbol. This was a descriptive comparison and did not treat
+$\bar{n}$ as a cause of the precision gap.
+
+The plot is produced by `draw_gap_vs_nbar()` in
+`02_make_report_figures.R` on lines 372 to 468 and saved on lines 470 to 477 as
+`fig_gap_vs_nbar_pooled.png` and `fig_gap_vs_nbar_pooled.pdf`.
+
+
+## Software, outputs and reproducibility
+
+All simulations and analyses were carried out in R version 4.4.2. The code and
+outputs required to reproduce the report are available at
+\url{https://github.com/SHERRY-DOGGIE-1/MDS_Final_Report}. Table \ref{table:code} summarises the four scripts used in the analysis.
+
+\begin{table}[ht!]
+\centering
+\small
+\begin{tabular}{ |p{0.31\textwidth}|p{0.61\textwidth}| }
+\hline
+Script & Role and main files \\ \hline
+
+\path{01_run_final_simulation.R}
+&
+Runs the formal simulation and writes the raw and summary results
+(\path{all_raw_results.csv} and \path{summary_results.csv}), together with
+supporting parameter, checkpoint and timing files, to
+\path{outputs/full_R400/}.
+\\ \hline
+
+\path{02_make_report_figures.R}
+&
+Reads \path{outputs/full_R400/summary_results.csv} and writes the five result
+figures and \path{table_main_results.csv} to
+\path{outputs/full_R400/report_figures/}.
+\\ \hline
+
+\path{03_make_spatial_diagnostics.R}
+&
+Generates the spatial examples and CSR diagnostic, and writes the diagnostic
+summaries and figures to \path{outputs/spatial_diagnostics/}.
+\\ \hline
+
+\path{wk2_toy_beta.R}
+&
+Generates Figure \ref{f:transect} and writes
+\path{fig4_linear_transect_examples.png} to
+\path{partB_beta_toy_figures/}.
+\\ \hline
+
+\end{tabular}
+\caption{Scripts used to generate the formal simulation results, spatial
+diagnostics and Background illustration.}
+\label{table:code}
+\end{table}
+
+`01_run_final_simulation.R` was run before `02_make_report_figures.R`. The
+spatial-diagnostic and toy-figure scripts produced independent outputs. Exact
+seeds and code locations are given in the relevant Methods subsections.
+
+Detailed line references for `01_run_final_simulation.R` and
+`03_make_spatial_diagnostics.R` are given in the preceding subsections.
+`02_make_report_figures.R` reads the saved summary on lines 58 to 61, produces
+the result figures on lines 285 to 477, and writes the report table on lines 498
+to 510. Figure \ref{f:transect} is produced by `wk2_toy_beta.R` on lines 327 to
+351.
+
+
+
+
+
+# Results
+
+
+## Simulation checks
+
+
+All 32 reported settings retained all 400 planned repetitions, so
+$M_{\mathrm{eff}} = 400$ and the success rate was 1.00 throughout. No repetition
+failed to reach the target stopping count or contained zero markers in the final
+counting rectangle. Across the 6400 generated point patterns, the realised marker
+total ranged from 94516 to 116118, with an overall mean of approximately $104961$. Across the 16 scenario--ratio combinations, the mean realised
+marker total ranged from 104617 to 105156.
+
+
+## CSR diagnostic
+
+Figure \ref{f:csrdiag} compares the empirical inter-event distance curve with
+the theoretical CSR curve for each spatial scenario, using the diagnostic
+described in Subsection \ref{sec:csr-diagnostic}. The CSR scenario had the
+smallest gap, $0.004$. The gaps were $0.192$ for right-high, $0.203$ for
+left-high and $0.420$ for centre-high.
+
+\begin{figure}[ht!]
+\centering
+\includegraphics[width=\textwidth]{outputs/spatial_diagnostics/fig_csr_diagnostic_inter_event.png}
+\caption{Empirical inter-event distance curves (solid) and the theoretical CSR
+curve (dashed) for the four spatial scenarios.}
+\label{f:csrdiag}
+\end{figure}
+
+
+
+## Formula versus simulation precision
+
+Figure \ref{f:relgap} shows the relative precision gap for all $32$ settings,
+and Table \ref{tab:tab-main} reports the formula-based and simulation precision
+estimates at $\bar{u}=10$. Complete values for all settings are reported in
+Appendix Table \ref{tab:tab-full-precision}.
+
+\clearpage
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{outputs/full_R400/report_figures/fig_relative_precision_gap.png}
+\caption{Relative precision gap against the target-to-marker ratio for
+$x_{\mathrm{stop}}=333$ (left) and $x_{\mathrm{stop}}=800$ (right). Colours
+distinguish the four spatial scenarios.}
+\label{f:relgap}
+\end{figure}
+
+
+
+```{r tab-main, echo=FALSE, results='asis'}
+x <- read.csv(
+  "outputs/full_R400/report_figures/table_main_results.csv"
+)
+
+
+x <- subset(
+  x,
+  ratio_value == 10,
+  select = c(
+    scenario,
+    x_stop,
+    mean_sigma,
+    sigma_exact,
+    relative_gap
+  )
+)
+
+
+x <- x[order(x$x_stop, x$scenario), ]
+
+knitr::kable(
+  x,
+  format = "latex",
+  row.names = FALSE,
+  digits = c(0, 0, 2, 2, 3),
+  col.names = c(
+    "Scenario",
+    "$x_{\\mathrm{stop}}$",
+    "$\\bar{\\sigma}_L$ (\\%)",
+    "$\\sigma_{\\mathrm{exact}}$ (\\%)",
+    "Rel. gap"
+  ),
+  escape = FALSE,
+  align = "lrrrr",
+  caption = paste(
+    "Formula-based and simulation precision estimates at",
+    "$\\bar u=10$ for both stopping counts."
+  )
+)
+```
+
+
+
+Both precision measures increased with the target-to-marker ratio. At
+$x_{\mathrm{stop}}=333$, $\bar{\sigma}_L$ increased from approximately $8.3\%$
+at $\bar{u}=1$ to approximately $18.6\%$ at $\bar{u}=10$.
+$\sigma_{\mathrm{exact}}$ ranged from $8.02\%$ to $9.25\%$ at $\bar{u}=1$ and
+from approximately $20\%$ to $22\%$ at $\bar{u}=10$. At
+$x_{\mathrm{stop}}=333$ and $\bar{u}=10$, the four values of
+$\bar{\sigma}_L$ ranged from $18.55\%$ to $18.77\%$.
+
+Across the eight settings at each ratio, the mean relative gaps were $0.047$,
+$0.020$, $0.065$ and $0.079$ for $\bar{u}=1$, $2$, $5$ and $10$,
+respectively. The relative gap was smaller at $x_{\mathrm{stop}}=800$ than at
+$x_{\mathrm{stop}}=333$ in $12$ of the $16$ matched comparisons of spatial
+scenario and ratio, including all four scenarios at $\bar{u}=5$. The signed gap
+was negative in $25$ of the $32$ settings and in all $16$ settings at
+$\bar{u}=5$ and $\bar{u}=10$.
+
+Centre-high had the largest CSR gap, $0.420$. Its relative precision gap was
+the largest in one of the eight combinations of ratio and stopping count.
+
+
+
+## Precision gap versus mean marker count
+
+Figure \ref{f:gapnbar} shows the relative precision gap against the mean counted
+marker number $\bar{n}$ for all $32$ settings. The horizontal axis is
+logarithmic, colours distinguish the four spatial scenarios, and symbols
+distinguish the two stopping counts.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth,height=0.72\textheight,keepaspectratio]{outputs/full_R400/report_figures/fig_gap_vs_nbar_pooled.pdf}
+\caption{Relative precision gap against the mean counted marker number
+$\bar{n}$ for all $32$ settings. The horizontal axis is logarithmic; colours
+identify the four spatial scenarios, circles indicate
+$x_{\mathrm{stop}}=333$, and triangles indicate
+$x_{\mathrm{stop}}=800$.}
+\label{f:gapnbar}
+\end{figure}
+
+Across the $32$ settings, the relative precision gap tended to be smaller at
+larger values of $\bar{n}$.
+
+At $\bar{u}=10$ and $x_{\mathrm{stop}}=333$, $\bar{n}$ ranged from $32.8$ to
+$33.6$ across the four scenarios. At $\bar{u}=1$ and
+$x_{\mathrm{stop}}=800$, it ranged from $795.7$ to $799.9$.
+
+The largest relative precision gap, $0.131$, occurred in the left-high scenario
+at $\bar{u}=10$ and $x_{\mathrm{stop}}=333$, where $\bar{n}=32.8$. The smallest
+gap, $0.0003$, occurred in the CSR scenario at $\bar{u}=2$ and
+$x_{\mathrm{stop}}=800$, where $\bar{n}=401.5$.
+
+At $\bar{u}=1$ and $x_{\mathrm{stop}}=333$, the range of $\bar{n}$ across the
+four scenarios was $1.2$, from $331.7$ to $332.9$, while the corresponding
+relative precision gaps ranged from $0.015$ to $0.101$.
+
+
+
+
+## Concentration bias
+
+Figure \ref{f:bias} shows the absolute relative bias of the concentration
+estimate based on the mean marker count, $\hat{c}_{\mathrm{Jensen}}$, against
+the target-to-marker ratio for the two stopping counts.
+
+\begin{figure}[ht!]
+\centering
+\includegraphics[width=\textwidth]{outputs/full_R400/report_figures/fig_concentration_bias.png}
+\caption{Absolute relative bias of the concentration estimate based on the mean
+marker count against the target-to-marker ratio for
+$x_{\mathrm{stop}}=333$ (left) and $x_{\mathrm{stop}}=800$ (right). Colours
+distinguish the four spatial scenarios.}
+\label{f:bias}
+\end{figure}
+
+The absolute relative bias of $\hat{c}_{\mathrm{Jensen}}$ ranged from
+approximately $0.02\%$ to $1.52\%$, with a mean of $0.45\%$. The largest value
+occurred in the left-high scenario at $\bar{u}=10$ and
+$x_{\mathrm{stop}}=333$.
+
+The absolute raw bias reached
+$5.31\%$ in the left-high scenario at $\bar{u}=10$ and
+$x_{\mathrm{stop}}=333$. Across the remaining $31$ settings, its largest value
+was $3.42\%$. The bias component accounted for at most $6.1\%$ of
+$\sigma_{\mathrm{exact}}^2$ and had a median contribution of $1.4\%$.
+
+
+
+# Discussion
+
+## Interpretation of the main findings
+
+This project examined whether spatial heterogeneity reduced the reliability of
+the linear-method precision formula. Within the shared-pattern settings
+examined, departure from CSR did not consistently reduce agreement between the
+formula-based estimate and the simulation benchmark. This conclusion is limited
+to the design used here, in which targets and markers followed the same spatial
+distribution within each scenario.
+
+The smallest mean relative precision gap occurred at $\bar{u}=2$ ($2.0\%$).
+This setting matches the practical balance identified by Mays et al.
+[-@mays2025field, p. 4] and lies at the upper end of the preferred range
+reported by Price et al. [-@price2016determining, p. 78]. It is also consistent
+with Maher's observation that, at $u=1$, half of the counted specimens are
+markers rather than biological targets
+[-@maher1981statistics, pp. 156--157]. The present result therefore provides a
+useful point of agreement with the earlier practical guidance: within the
+settings examined, the precision formula agreed most closely with the
+simulation benchmark at a ratio already favoured on counting-efficiency
+grounds. It does not establish $\bar{u}=2$ as a universal optimum, because the
+earlier recommendations concern precision and counting efficiency, whereas the
+present comparison concerns agreement between two precision estimates.
+
+A plausible explanation follows from this shared-pattern design. Targets and
+markers had the same expected spatial pattern, so regions with a higher expected
+target density also had a higher expected marker density. Because the
+concentration estimate in Equation \eqref{eqn:chat} depends on the ratio of the
+two counted numbers, these common spatial changes can partly cancel in that
+ratio. Spatial heterogeneity can therefore change where the counting rectangle
+ends and how many markers are counted without necessarily producing a
+corresponding change in the precision gap. This explanation does not extend to
+preparations in which targets and markers follow different spatial
+distributions.
+
+The CSR gap and the precision gap also describe different features of the
+simulation. The CSR gap summarises the overall spatial pattern of the target
+points, whereas the precision gap depends on the target and marker counts inside
+the final counting rectangle. The ordering of the scenarios by CSR gap therefore
+does not have to match their ordering by precision gap. This does not show that
+spatial pattern is unimportant. It shows only that the size of the departure
+from CSR was not, by itself, a consistent indicator of agreement between the two
+precision estimates in the settings examined.
+
+
+The larger gaps at lower $\bar{n}$ should not be taken as evidence that the
+marker count alone caused the disagreement. A smaller $n_m$ increases the
+$1/n_m$ term in Equation \eqref{eqn:sigmaL}, and changes in a small denominator
+have a greater effect on the concentration estimate. However, $\bar{n}$ changed
+together with the target-to-marker ratio and the stopping count, so this
+simulation cannot separate their effects.
+
+
+
+
+## Limitations
+
+The simulation was designed to answer a controlled question, so its findings
+apply only to the settings examined. The four Beta patterns were chosen to
+produce clear departures from CSR rather than fitted to real microscope slides.
+Only four spatial patterns, four target-to-marker ratios and two stopping counts
+were examined. The target and marker points were generated independently but
+from the same coordinate distribution in each scenario. This kept their
+expected spatial relationship the same while the spatial pattern was changed.
+It also excluded cases in which targets and markers follow different spatial
+patterns. The results therefore cannot be extended to those cases.
+
+The counting procedure was also simplified. All simulations used the same
+horizontal transect band, $y \in [0.83,0.88]$, and the same left-to-right
+counting direction. Changing the position or direction of the transect could
+produce different marker counts under a non-uniform pattern. The simulation
+also generated specimen coordinates directly, so it did not include variation
+introduced during slide preparation, mixing, specimen overlap or microscopic
+identification. The results describe the statistical behaviour of the counting
+method rather than every source of uncertainty in a real preparation.
+
+Because $\bar{n}$ changed with the ratio and stopping count, its association
+with the precision gap is descriptive. The CSR diagnostic was based on one
+representative point pattern for each scenario and did not measure variation
+between repeated patterns. Finally, the simulation benchmark was calculated
+from $400$ repetitions. It therefore retains some Monte Carlo variation, while
+the precision gaps were reported as point values without Monte Carlo intervals.
+
+
+
+## Implications and future work
+
+For a method that depends on both target and marker counts, the target pattern
+alone is not enough to judge reliability, although this conclusion currently
+applies only when targets and markers share the same spatial pattern.
+
+The next simulation step should generate targets and markers from different
+spatial distributions. This could include a non-uniform target pattern with
+approximately uniform markers, as well as target and marker patterns with
+opposing spatial gradients. These settings would test whether agreement with
+the formula changes when the shared-pattern explanation in Section 7.1 no
+longer applies. A later extension could introduce a clustered pattern using a
+Thomas process, which would represent a form of spatial aggregation not included
+in the present Beta settings [@diggle2013spatial, p. 100].
+
+The relationship with $\bar{n}$ could be examined using settings that produce
+similar mean marker counts from different combinations of target-to-marker ratio
+and stopping count. The CSR diagnostic should also be repeated across multiple
+point patterns within each scenario. More Monte Carlo repetitions would allow
+intervals to be reported for the precision gaps, while different transect
+positions and counting directions would test the sensitivity of the results to
+the counting geometry.
+
+In the longer term, validation against real microscope preparations would test
+how far these simulation-based findings carry over to practical counting.
+
+
+## Conclusion
+
+This report presents an initial controlled assessment of the linear-method
+precision formula under non-uniform specimen distributions. The analysis
+compared formula-based precision with variation across repeated simulations
+under CSR and three Beta patterns, using four target-to-marker ratios and two
+stopping counts. In all settings examined, targets and markers followed the
+same spatial distribution.
+
+Within this shared-pattern design, a stronger departure from CSR was not
+consistently associated with a larger precision gap. Larger gaps were more
+often observed when fewer markers were counted, but marker count changed
+together with the target-to-marker ratio and stopping count. Their separate
+effects therefore could not be determined from the present design.
+
+These findings should not be interpreted as a general validation of the
+precision formula under spatial heterogeneity. The present analysis does not
+cover situations in which targets and markers follow different spatial
+distributions, which may produce different results. Mays et al.
+[-@mays2025field, p. 28] identified inhomogeneity as an area lacking
+quantitative assessment; this report provides an initial step towards that
+assessment rather than a complete answer. The next stage should examine
+different target and marker distributions before the findings are compared
+with real microscope preparations.
+
+
+# Acknowledgements
+
+The author thanks Anthony Mays for supervision and guidance throughout this
+project.
+
+The code and outputs required to reproduce this report are available at
+https://github.com/SHERRY-DOGGIE-1/MDS_Final_Report.
+
+Anthropic's Claude was used to assist with language polishing and to check the
+manuscript for clarity, consistency and referencing errors. All research
+design, analysis, interpretation and conclusions are the author's own.
+
+
+# References
+
+<div id="refs"></div>
+
+
+\newpage
+
+# Appendix
+
+## Additional theoretical and practical background
+
+### Laboratory-processing uncertainty
+
+\label{app:processing}
+
+The simulations begin after target and marker locations have been generated
+and therefore do not represent chemical preparation or specimen loss. In
+experiments using marine sediment samples, Price et al.
+[-@price2016determining, p. 78] measured an average loss of 8.2% of
+*Lycopodium* spores during processing, corresponding to a 4.8% overestimate of
+dinoflagellate-cyst concentration. This is an important practical source of
+uncertainty, but it is outside the scope of the present simulation.
+
+### Equal counts under fixed counting effort
+
+\label{app:equal-counts}
+
+The theoretical result at $u=1$ can be seen from the two counting terms in the
+linear-method precision formula. For a fixed expected combined count
+$T=x+n$,
+
+\[
+\frac{1}{x}+\frac{1}{n}
+=
+\frac{T}{xn}.
+\]
+
+For fixed $T$, the product $xn$ is largest when $x=n=T/2$. The counting
+contribution is therefore smallest when the expected target and marker counts
+are equal. This is a planning result for fixed expected counting effort and
+does not require the observed counts to be identical in every repetition
+[@regal1979confidence, Eq. 6.2, p. 564].
+
+### Inter-event distance reference under CSR
+
+\label{app:csr-reference}
+
+For two events with coordinates $(X_i,Y_i)$ and $(X_j,Y_j)$, their
+inter-event distance is
+
+\[
+d_{ij}
+=
+\sqrt{(X_i-X_j)^2+(Y_i-Y_j)^2}.
+\]
+
+The empirical cumulative distribution $\hat{H}(t)$ records the proportion of
+observed inter-event distances no greater than $t$. Under CSR on the unit
+square, the corresponding distribution for $0\leq t\leq1$ is
+
+\begin{align}
+\label{eqn:Hcsr}
+H_{\mathrm{CSR}}(t)
+=
+\pi t^2-\frac{8}{3}t^3+\frac{1}{2}t^4,
+\qquad 0\leq t\leq1.
+\end{align}
+
+This is the unit-square inter-event distance distribution given by Diggle
+[-@diggle2013spatial, Eq. 2.2, pp. 18--19].
+
+
+## Complete formula and simulation precision results
+
+Table \ref{tab:tab-full-precision} reports the formula-based precision estimate,
+simulation benchmark and precision gaps for all $32$ settings.
+
+\small
+
+```{r tab-full-precision, echo=FALSE, results='asis'}
+full_precision <- read.csv(
+  "outputs/full_R400/report_figures/table_main_results.csv"
+)
+
+full_precision <- full_precision[
+  order(
+    full_precision$x_stop,
+    full_precision$ratio_value,
+    full_precision$scenario
+  ),
+  c(
+    "scenario",
+    "ratio_value",
+    "x_stop",
+    "mean_n",
+    "mean_sigma",
+    "sigma_exact",
+    "signed_gap",
+    "relative_gap"
+  )
+]
+
+knitr::kable(
+  full_precision,
+  format = "latex",
+  longtable = TRUE,
+  booktabs = TRUE,
+  row.names = FALSE,
+  digits = c(0, 0, 0, 1, 2, 2, 2, 3),
+  col.names = c(
+    "Scenario",
+    "$\\bar u$",
+    "$x_{\\mathrm{stop}}$",
+    "$\\bar n$",
+    "$\\bar{\\sigma}_L$ (\\%)",
+    "$\\sigma_{\\mathrm{exact}}$ (\\%)",
+    "$\\Delta$",
+    "Rel. gap"
+  ),
+  escape = FALSE,
+  align = "lrrrrrrr",
+  caption = paste(
+    "Formula-based and simulation precision results",
+    "for all 32 settings."
+  )
+)
+
+
+```
+
+\normalsize
+
+
+
+
+
